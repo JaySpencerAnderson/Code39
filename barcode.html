@@ -32,6 +32,8 @@
 	var kv=[];
 	var nkv=[];
 	function initKV(){
+		kv=[];
+
 		kv.push({key:"1", value:17, bs:1});
 		kv.push({key:"2", value:18, bs:1});
 		kv.push({key:"3", value:3, bs:1});
@@ -75,6 +77,8 @@
 		kv.push({key:".", value:9, bs:0});
 		kv.push({key:"_", value:10, bs:0});
 		kv.push({key:"*", value:12, bs:0});
+
+		nkv=[];
 
 		nkv.push({key:"+", ns:1});
 		nkv.push({key:"/", ns:2});
@@ -144,6 +148,7 @@
 		document.getElementById("txt" + id).innerHTML=delimit(s);
 	}
 	function integrated(id){
+		initKV();
 		var s=document.getElementById("npt" + id).value;
 		displayBarcode(s,id);
 	}
