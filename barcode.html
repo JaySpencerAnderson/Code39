@@ -7,13 +7,23 @@
 <table>
 <tr><td id="bar0"></td></tr>
 <tr><td id="txt0"></td></tr>
+<tr><td><input id="npt0" type="text" oninput=integrated("0")></td></tr>
+<tr><td><hr></td></tr>
+
 <tr><td id="bar1"></td></tr>
 <tr><td id="txt1"></td></tr>
+<tr><td><input id="npt1" type="text" oninput=integrated("1")></td></tr>
+<tr><td><hr></td></tr>
+
 <tr><td id="bar2"></td></tr>
 <tr><td id="txt2"></td></tr>
+<tr><td><input id="npt2" type="text" oninput=integrated("2")></td></tr>
+<tr><td><hr></td></tr>
+
 <tr><td id="bar3"></td></tr>
 <tr><td id="txt3"></td></tr>
-<tr><td id="asterix"></td></tr>
+<tr><td><input id="npt3" type="text" oninput=integrated("3")></td></tr>
+
 </table>
 <hr>
 <a href="https://www.codeproject.com/Articles/146336/Creating-a-Code-39-Barcode-using-HTML-CSS-and-Java">As seen here</a>
@@ -129,17 +139,18 @@
 	function renderBarcode(s){
 		return renderString(delimit(s));
 	}
-	initKV();
-	var barcode=[];
-	barcode.push({id:"0", text:"0123456789ABC"});
-	barcode.push({id:"1", text:"DEFGHIJKLMNOP"});
-	barcode.push({id:"2", text:"QRSTUVWXYZ-._"});
-	barcode.push({id:"3", text:"+/$%"});
-
-	for(var i=0;i<barcode.length;i++){
-		document.getElementById("bar" + barcode[i].id).innerHTML=renderBarcode(barcode[i].text);
-		document.getElementById("txt" + barcode[i].id).innerHTML=delimit(barcode[i].text);
+	function displayBarcode(s,id){
+		document.getElementById("bar" + id).innerHTML=renderBarcode(s);
+		document.getElementById("txt" + id).innerHTML=delimit(s);
 	}
-	document.getElementById("asterix").innerHTML=renderChar("*");
+	function integrated(id){
+		var s=document.getElementById("npt" + id).value;
+		displayBarcode(s,id);
+	}
+	initKV();
+// Display whatever is already in the text areas, even if nothing.
+	for(var i=0;i<4;i++){
+		integrated(i);
+	}
 </script>
 </html>
