@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>Code 39 Barcode</title>
+<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1"> 
+</head>
+<body>
+<table>
+<tr><td id="bar0"></td></tr>
+<tr><td id="txt0"></td></tr>
+<tr><td id="bar1"></td></tr>
+<tr><td id="txt1"></td></tr>
+<tr><td id="bar2"></td></tr>
+<tr><td id="txt2"></td></tr>
+<tr><td id="bar3"></td></tr>
+<tr><td id="txt3"></td></tr>
+<tr><td id="asterix"></td></tr>
+</table>
+<hr>
+<a href="https://www.codeproject.com/Articles/146336/Creating-a-Code-39-Barcode-using-HTML-CSS-and-Java">As seen here</a>
+</body>
+<script>
+	var kv=[];
+	var nkv=[];
+	function initKV(){
+		kv.push({key:"1", value:17, bs:1});
+		kv.push({key:"2", value:18, bs:1});
+		kv.push({key:"3", value:3, bs:1});
+		kv.push({key:"4", value:20, bs:1});
+		kv.push({key:"5", value:5, bs:1});
+		kv.push({key:"6", value:6, bs:1});
+		kv.push({key:"7", value:24, bs:1});
+		kv.push({key:"8", value:9, bs:1});
+		kv.push({key:"9", value:10, bs:1});
+		kv.push({key:"0", value:12, bs:1});
+
+		kv.push({key:"A", value:17, bs:2});
+		kv.push({key:"B", value:18, bs:2});
+		kv.push({key:"C", value:3, bs:2});
+		kv.push({key:"D", value:20, bs:2});
+		kv.push({key:"E", value:5, bs:2});
+		kv.push({key:"F", value:6, bs:2});
+		kv.push({key:"G", value:24, bs:2});
+		kv.push({key:"H", value:9, bs:2});
+		kv.push({key:"I", value:10, bs:2});
+		kv.push({key:"J", value:12, bs:2});
+
+		kv.push({key:"K", value:17, bs:3});
+		kv.push({key:"L", value:18, bs:3});
+		kv.push({key:"M", value:3, bs:3});
+		kv.push({key:"N", value:20, bs:3});
+		kv.push({key:"O", value:5, bs:3});
+		kv.push({key:"P", value:6, bs:3});
+		kv.push({key:"Q", value:24, bs:3});
+		kv.push({key:"R", value:9, bs:3});
+		kv.push({key:"S", value:10, bs:3});
+		kv.push({key:"T", value:12, bs:3});
+
+		kv.push({key:"U", value:17, bs:0});
+		kv.push({key:"V", value:18, bs:0});
+		kv.push({key:"W", value:3, bs:0});
+		kv.push({key:"X", value:20, bs:0});
+		kv.push({key:"Y", value:5, bs:0});
+		kv.push({key:"Z", value:6, bs:0});
+		kv.push({key:"-", value:24, bs:0});
+		kv.push({key:".", value:9, bs:0});
+		kv.push({key:"_", value:10, bs:0});
+		kv.push({key:"*", value:12, bs:0});
+
+		nkv.push({key:"+", ns:1});
+		nkv.push({key:"/", ns:2});
+		nkv.push({key:"$", ns:3});
+		nkv.push({key:"%", ns:0});
+	}
+	function span(color,width){
+		return '<span style="BORDER-LEFT: ' + color + ' ' + width + 'in solid; DISPLAY: inline-block; HEIGHT: 1in"></span>';
+	}
+	function renderChar(c){
+		var h="";
+		var wide="0.05";
+		var narrow="0.02";
+		for(var i=0;i<kv.length;i++){
+			if(c === kv[i].key){
+				var mask=1;
+				for(var j=0;j<5;j++){
+					if((kv[i].value & mask) == mask){
+						h=h+span("black",wide);
+					}
+					else {
+						h=h+span("black",narrow);
+					}
+					if(kv[i].bs == j){
+						h=h+span("white",wide);
+					}
+					else {
+						h=h+span("white",narrow);
+					}
+					mask<<=1;
+				}
+				return h;
+			}
+		}
+		for(var i=0;i<nkv.length;i++){
+			if(c === nkv[i].key){
+				for(var j=0;j<5;j++){
+					h=h+span("black",narrow);
+					if(nkv[i].ns == j){
+						h=h+span("white",narrow);
+					}
+					else {
+						h=h+span("white",wide);
+					}
+					mask<<=1;
+				}
+				return h;
+			}
+		}
+		return "Woops!";
+	}
+	function renderString(s){
+		var x="";
+		for(var i=0;i<s.length;i++){
+			x=x+renderChar(s.charAt(i));
+		}
+		return x;
+	}
+	function delimit(s){
+		return "*" + s + "*";
+	}
+	function renderBarcode(s){
+		return renderString(delimit(s));
+	}
+	initKV();
+	var barcode=[];
+	barcode.push({id:"0", text:"0123456789ABC"});
+	barcode.push({id:"1", text:"DEFGHIJKLMNOP"});
+	barcode.push({id:"2", text:"QRSTUVWXYZ-._"});
+	barcode.push({id:"3", text:"+/$%"});
+
+	for(var i=0;i<barcode.length;i++){
+		document.getElementById("bar" + barcode[i].id).innerHTML=renderBarcode(barcode[i].text);
+		document.getElementById("txt" + barcode[i].id).innerHTML=delimit(barcode[i].text);
+	}
+	document.getElementById("asterix").innerHTML=renderChar("*");
+</script>
+</html>
